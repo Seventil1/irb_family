@@ -131,9 +131,9 @@ function ChartLineTooltip({
           const key = entry.dataKey as SegmentKey;
           const value = Number(entry.value);
           const color = SEGMENT_CHART_COLORS[key];
-          const showWow = key === "pilot" && weekIndex > 0;
+          const showWow = weekIndex > 0;
           const wow =
-            showWow && raw ? weekOverWeekPct(value, raw.pilot[weekIndex - 1]) : null;
+            showWow && raw ? weekOverWeekPct(value, raw[key][weekIndex - 1]) : null;
 
           return (
             <li key={key} className="flex items-start gap-2.5">
@@ -174,8 +174,8 @@ function BarChartTooltip({
 
   const segment = SEGMENTS.find((s) => s.label === row.name);
   const wow =
-    segment?.key === "pilot"
-      ? weekOverWeekPct(LEADS.pilot[5], LEADS.pilot[4])
+    segment != null
+      ? weekOverWeekPct(LEADS[segment.key][5], LEADS[segment.key][4])
       : null;
 
   return (
