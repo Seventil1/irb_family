@@ -77,24 +77,46 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Showcases pilot project results for lead generation on job sites." },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Showcases pilot project results for lead generation on job sites." },
+      { title: "Пилот IRB Family — итоги 1-й недели" },
+      {
+        name: "description",
+        content: "Интерактивный отчёт HR-Rocket о результатах пилота лидогенерации для IRB Family.",
+      },
+      { name: "author", content: "HR-Rocket" },
+      { property: "og:title", content: "Пилот IRB Family — итоги 1-й недели" },
+      {
+        property: "og:description",
+        content: "Интерактивный отчёт HR-Rocket о результатах пилота лидогенерации для IRB Family.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
-      { name: "twitter:title", content: "Lovable App" },
-      { name: "twitter:description", content: "Showcases pilot project results for lead generation on job sites." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/2e64f535-11d4-4118-9a76-c81f772decee/id-preview-a132cb11--ec11fd1b-d333-43f7-94b8-99c5405532a2.lovable.app-1782799851910.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/2e64f535-11d4-4118-9a76-c81f772decee/id-preview-a132cb11--ec11fd1b-d333-43f7-94b8-99c5405532a2.lovable.app-1782799851910.png" },
+      { name: "twitter:title", content: "Пилот IRB Family — итоги 1-й недели" },
+      {
+        name: "twitter:description",
+        content: "Интерактивный отчёт HR-Rocket о результатах пилота лидогенерации для IRB Family.",
+      },
+      {
+        property: "og:image",
+        content:
+          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/2e64f535-11d4-4118-9a76-c81f772decee/id-preview-a132cb11--ec11fd1b-d333-43f7-94b8-99c5405532a2.lovable.app-1782799851910.png",
+      },
+      {
+        name: "twitter:image",
+        content:
+          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/2e64f535-11d4-4118-9a76-c81f772decee/id-preview-a132cb11--ec11fd1b-d333-43f7-94b8-99c5405532a2.lovable.app-1782799851910.png",
+      },
     ],
     links: [
       {
         rel: "stylesheet",
         href: appCss,
       },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap",
+      },
+      { rel: "icon", href: "/favicon.png", type: "image/png" },
     ],
   }),
   shellComponent: RootShell,
@@ -105,7 +127,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="ru">
       <head>
         <HeadContent />
       </head>

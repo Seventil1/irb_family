@@ -69,6 +69,12 @@
   --color-chart-pilot-2: var(--chart-pilot-2);
   --color-chart-pilot-3: var(--chart-pilot-3);
   --color-chart-control: var(--chart-control);
+  --color-hr-blue: var(--hr-blue);
+  --color-hr-pink: var(--hr-pink);
+  --color-hr-orange: var(--hr-orange);
+  --color-hr-grey: var(--hr-grey);
+  --color-hr-grey-light: var(--hr-grey-light);
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
 }
 
 :root {
@@ -115,6 +121,11 @@
   --chart-pilot-2: oklch(0.62 0.17 155);
   --chart-pilot-3: oklch(0.45 0.22 285);
   --chart-control: oklch(0.65 0.02 260);
+  --hr-blue: #00b5f0;
+  --hr-pink: #e6007e;
+  --hr-orange: #f7941d;
+  --hr-grey: #58595b;
+  --hr-grey-light: #8a8b8d;
 }
 
 .dark {
@@ -160,5 +171,126 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: "Manrope", ui-sans-serif, system-ui, sans-serif;
   }
+}
+
+/* HR-Rocket report design system */
+html {
+  scroll-behavior: smooth;
+}
+
+.report-page {
+  --background: #0a0a0f;
+  --foreground: #f8fafc;
+  --card: rgba(255, 255, 255, 0.04);
+  --card-foreground: #f8fafc;
+  --muted-foreground: #94a3b8;
+  --border: rgba(255, 255, 255, 0.08);
+  background-color: #0a0a0f;
+  color: #f8fafc;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  background-image:
+    radial-gradient(circle at 15% 0%, rgba(0, 181, 240, 0.14), transparent 32%),
+    radial-gradient(circle at 85% 5%, rgba(230, 0, 126, 0.1), transparent 28%),
+    radial-gradient(circle at 70% 90%, rgba(247, 148, 29, 0.06), transparent 30%),
+    linear-gradient(180deg, #0a0a0f 0%, #111118 100%);
+}
+
+.report-page ::selection {
+  background: rgba(0, 181, 240, 0.35);
+}
+
+.report-page > * {
+  position: relative;
+  z-index: 1;
+}
+
+.text-brand-gradient {
+  background: linear-gradient(
+    90deg,
+    var(--color-hr-blue),
+    var(--color-hr-pink),
+    var(--color-hr-orange)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.bg-brand-gradient {
+  background: linear-gradient(
+    135deg,
+    var(--color-hr-blue),
+    var(--color-hr-pink) 55%,
+    var(--color-hr-orange)
+  );
+}
+
+.bg-brand-gradient-soft {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 181, 240, 0.18),
+    rgba(230, 0, 126, 0.12) 50%,
+    rgba(247, 148, 29, 0.1)
+  );
+}
+
+.brand-stripe {
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    var(--color-hr-blue) 0%,
+    var(--color-hr-blue) 33%,
+    var(--color-hr-pink) 33%,
+    var(--color-hr-pink) 66%,
+    var(--color-hr-orange) 66%,
+    var(--color-hr-orange) 100%
+  );
+}
+
+.glass-card {
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.25),
+    0 8px 10px -6px rgba(0, 0, 0, 0.25);
+}
+
+.pilot-glow {
+  box-shadow:
+    0 0 0 1px rgba(247, 148, 29, 0.25),
+    0 0 40px rgba(247, 148, 29, 0.08);
+}
+
+.btn-brand {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem 1.5rem;
+  border-radius: 0.75rem;
+  font-weight: 700;
+  font-size: 1rem;
+  color: white;
+  text-decoration: none;
+  background: linear-gradient(135deg, var(--color-hr-blue), var(--color-hr-pink));
+  transition:
+    transform 0.2s,
+    background 0.2s;
+}
+
+.btn-brand:hover {
+  background: linear-gradient(135deg, #33c4f3, #ff4da6);
+  transform: translateY(-1px);
+}
+
+.nav-link:hover {
+  color: var(--color-hr-blue);
 }
