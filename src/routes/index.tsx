@@ -68,11 +68,14 @@ const SEGMENT_CHART_COLORS: Record<SegmentKey, string> = {
   control: "#58595b",
 };
 
-const TOOLTIP_STYLE = {
-  background: "rgba(15, 23, 42, 0.95)",
-  border: "1px solid rgba(255,255,255,0.1)",
-  borderRadius: 12,
-  color: "#f8fafc",
+const TOOLTIP_PROPS = {
+  contentStyle: {
+    background: "rgba(15, 23, 42, 0.95)",
+    border: "1px solid rgba(255,255,255,0.1)",
+    borderRadius: 12,
+  },
+  labelStyle: { color: "#f8fafc", fontWeight: 600 },
+  itemStyle: { color: "#f8fafc" },
 };
 
 function Chart({ metric, active }: { metric: Metric; active: SegmentKey[] }) {
@@ -84,7 +87,7 @@ function Chart({ metric, active }: { metric: Metric; active: SegmentKey[] }) {
           <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.08)" />
           <XAxis dataKey="week" stroke="#8a8b8d" fontSize={12} />
           <YAxis stroke="#8a8b8d" fontSize={12} tickFormatter={(v) => nf.format(v)} />
-          <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => fmt(Number(v))} />
+          <Tooltip {...TOOLTIP_PROPS} formatter={(v) => fmt(Number(v))} />
           <Legend wrapperStyle={{ fontSize: 12, color: "#94a3b8" }} />
           <ReferenceLine
             x="22 июня"
@@ -478,7 +481,7 @@ function PilotReport() {
                     <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.08)" />
                     <XAxis dataKey="name" stroke="#8a8b8d" fontSize={12} />
                     <YAxis stroke="#8a8b8d" fontSize={12} tickFormatter={(v) => nf.format(v)} />
-                    <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => nf.format(Number(v))} />
+                    <Tooltip {...TOOLTIP_PROPS} formatter={(v) => nf.format(Number(v))} />
                     <Bar dataKey="leads" name="Лиды" radius={[6, 6, 0, 0]}>
                       {barData.map((entry) => (
                         <Cell key={entry.name} fill={entry.fill} />

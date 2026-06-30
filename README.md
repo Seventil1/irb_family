@@ -35,8 +35,16 @@ npm start
    - **Build:** `npm run build`
    - **Start:** `npm start` → `node .output/server/index.mjs`
 4. В **Settings → Networking** нажмите **Generate Domain**
-5. (Опционально) переменные окружения:
-   - `NODE_ENV=production`
+5. (Опционально) переменные окружения — см. таблицу ниже
+
+### Авторизация
+
+Отчёт закрыт логином. По умолчанию:
+
+- **Логин:** `admin`
+- **Пароль:** `123123qw`
+
+Страница входа: `/login`. После успешного входа выставляется HttpOnly-cookie на 7 дней.
 
 ### Переменные Railway
 
@@ -44,6 +52,9 @@ npm start
 |---|---|
 | `PORT` | Порт (Railway задаёт автоматически) |
 | `NODE_ENV` | `production` |
+| `AUTH_USER` | Логин (по умолчанию `admin`) |
+| `AUTH_PASS` | Пароль (по умолчанию `123123qw`) |
+| `SESSION_SECRET` | Секрет для подписи cookie-сессии |
 
 ## Структура
 
