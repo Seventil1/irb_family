@@ -223,20 +223,20 @@ function PilotReport() {
               Пилот HR-Rocket · лидогенерация
             </div>
 
-            <h1 className="max-w-4xl text-4xl font-extrabold leading-tight tracking-tight text-white md:text-6xl">
+            <h1 className="max-w-7xl text-4xl font-extrabold leading-tight tracking-tight text-white md:text-6xl lg:text-7xl">
               <span className="text-brand-gradient">+41,18% лидов</span> за первую неделю пилота
             </h1>
 
-            <p className="mt-5 max-w-3xl text-lg leading-relaxed text-slate-400">
+            <p className="mt-5 max-w-7xl text-lg leading-relaxed text-slate-400 md:text-xl">
               Результаты пилота для <strong className="font-semibold text-white">IRB Family</strong>{" "}
               по сегментам <strong className="font-semibold text-white">МСК + СПб</strong> и{" "}
               <strong className="font-semibold text-white">10 регионов</strong>. Сравнение baseline
               (5 недель до пилота) и стартовой недели пилота с контрольной группой городов.
             </p>
 
-            <div className="mt-4 flex flex-wrap gap-3 text-sm text-slate-500">
-              <span className="rounded-full border border-white/10 px-3 py-1">
-                До: 18 мая — 15 июня
+            <div className="mt-4 flex flex-wrap gap-3 text-sm">
+              <span className="rounded-full border border-[var(--color-hr-blue)]/40 bg-[rgba(0,181,240,0.12)] px-3 py-1 text-[var(--color-hr-blue)]">
+                До: 18 мая — 21 июня
               </span>
               <span className="rounded-full border border-[var(--color-hr-orange)]/40 bg-[rgba(247,148,29,0.12)] px-3 py-1 text-[var(--color-hr-orange)]">
                 С HR Rocket: 22 июня
