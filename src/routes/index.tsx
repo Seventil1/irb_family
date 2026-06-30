@@ -20,6 +20,7 @@ import {
   BUDGET,
   CPL,
   DELTAS,
+  WEEKS,
   buildSeries,
   nf,
   nfRub,
@@ -68,15 +69,141 @@ const SEGMENT_CHART_COLORS: Record<SegmentKey, string> = {
   control: "#58595b",
 };
 
-const TOOLTIP_PROPS = {
-  contentStyle: {
-    background: "rgba(15, 23, 42, 0.95)",
-    border: "1px solid rgba(255,255,255,0.1)",
-    borderRadius: 12,
-  },
-  labelStyle: { color: "#f8fafc", fontWeight: 600 },
-  itemStyle: { color: "#f8fafc" },
+const RAW_METRICS: Record<Metric, Record<SegmentKey, number[]>> = {
+  leads: LEADS,
+  budget: BUDGET,
+  cpl: CPL,
 };
+
+function weekOverWeekPct(current: number, previous: number): number {
+  return ((current - previous) / previous) * 100;
+}
+
+function fmtWowPlain(v: number): string {
+  const abs = Math.abs(v).toFixed(2).replace(".", ",");
+  if (v < 0) return `минус ${abs}%`;
+  if (v > 0) return `плюс ${abs}%`;
+  return "без изменений";
+}
+
+type TooltipPayloadItem = {
+  name?: string;
+  value?: number;
+  dataKey?: string;
+  payload?: { name?: string; leads?: number; fill?: string };
+};
+
+function ChartLineTooltip({
+  active,
+  payload,
+  label,
+  metric,
+  fmt,
+}: {
+  active?: boolean;
+  payload?: TooltipPayloadItem[];
+  label?: string;
+  metric: Metric;
+  fmt: (v: number) => string;
+}) {
+  if (!active || !payload?.length || !label) return null;
+
+  const weekIndex = WEEKS.indexOf(label as (typeof WEEKS)[number]);
+  const raw = RAW_METRICS[metric];
+  const segmentOrder = SEGMENTS.map((s) => s.key);
+
+  const items = [...payload]
+    .filter((p) => p.dataKey && segmentOrder.includes(p.dataKey as SegmentKey))
+    .sort(
+      (a, b) =>
+        segmentOrder.indexOf(a.dataKey as SegmentKey) -
+        segmentOrder.indexOf(b.dataKey as SegmentKey),
+    );
+
+  return (
+    <div
+      className="rounded-xl border border-white/10 px-3 py-2.5 text-sm shadow-lg"
+      style={{ background: "rgba(15, 23, 42, 0.95)" }}
+    >
+      <p className="mb-2 font-semibold text-slate-50">{label}</p>
+      <ul className="space-y-2">
+        {items.map((entry) => {
+          const key = entry.dataKey as SegmentKey;
+          const value = Number(entry.value);
+          const color = SEGMENT_CHART_COLORS[key];
+          const showWow = key === "pilot" && weekIndex > 0;
+          const wow =
+            showWow && raw ? weekOverWeekPct(value, raw.pilot[weekIndex - 1]) : null;
+
+          return (
+            <li key={key} className="flex items-start gap-2.5">
+              <span
+                className="mt-[8px] h-[3px] w-4 shrink-0 rounded-full"
+                style={{ backgroundColor: color }}
+              />
+              <div className="min-w-0 leading-snug">
+                <div>
+                  <span className="text-slate-400">{entry.name}: </span>
+                  <span className="font-semibold text-white">{fmt(value)}</span>
+                </div>
+                {wow != null && (
+                  <p className="mt-0.5 text-xs text-slate-400">
+                    {fmtWowPlain(wow)} относительно прошлой недели
+                  </p>
+                )}
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+}
+
+function BarChartTooltip({
+  active,
+  payload,
+}: {
+  active?: boolean;
+  payload?: TooltipPayloadItem[];
+}) {
+  if (!active || !payload?.length) return null;
+
+  const row = payload[0].payload;
+  if (!row?.name || row.leads == null || !row.fill) return null;
+
+  const segment = SEGMENTS.find((s) => s.label === row.name);
+  const wow =
+    segment?.key === "pilot"
+      ? weekOverWeekPct(LEADS.pilot[5], LEADS.pilot[4])
+      : null;
+
+  return (
+    <div
+      className="rounded-xl border border-white/10 px-3 py-2.5 text-sm shadow-lg"
+      style={{ background: "rgba(15, 23, 42, 0.95)" }}
+    >
+      <p className="mb-2 font-semibold text-slate-50">{row.name}</p>
+      <div className="flex items-start gap-2.5">
+        <span
+          className="mt-[8px] h-[3px] w-4 shrink-0 rounded-full"
+          style={{ backgroundColor: row.fill }}
+        />
+        <div className="leading-snug">
+          <div>
+            <span className="text-slate-400">Лиды: </span>
+            <span className="font-semibold text-white">{nf.format(row.leads)}</span>
+          </div>
+          {wow != null && (
+            <p className="mt-0.5 text-xs text-slate-400">
+              {fmtWowPlain(wow)} относительно прошлой недели
+            </p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function Chart({ metric, active }: { metric: Metric; active: SegmentKey[] }) {
   const { data, fmt } = METRIC_DATA[metric];
@@ -87,7 +214,7 @@ function Chart({ metric, active }: { metric: Metric; active: SegmentKey[] }) {
           <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.08)" />
           <XAxis dataKey="week" stroke="#8a8b8d" fontSize={12} />
           <YAxis stroke="#8a8b8d" fontSize={12} tickFormatter={(v) => nf.format(v)} />
-          <Tooltip {...TOOLTIP_PROPS} formatter={(v) => fmt(Number(v))} />
+          <Tooltip content={<ChartLineTooltip metric={metric} fmt={fmt} />} />
           <Legend wrapperStyle={{ fontSize: 12, color: "#94a3b8" }} />
           <ReferenceLine
             x="22 июня"
@@ -481,7 +608,7 @@ function PilotReport() {
                     <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.08)" />
                     <XAxis dataKey="name" stroke="#8a8b8d" fontSize={12} />
                     <YAxis stroke="#8a8b8d" fontSize={12} tickFormatter={(v) => nf.format(v)} />
-                    <Tooltip {...TOOLTIP_PROPS} formatter={(v) => nf.format(Number(v))} />
+                    <Tooltip content={<BarChartTooltip />} />
                     <Bar dataKey="leads" name="Лиды" radius={[6, 6, 0, 0]}>
                       {barData.map((entry) => (
                         <Cell key={entry.name} fill={entry.fill} />
