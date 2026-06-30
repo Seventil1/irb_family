@@ -106,7 +106,7 @@ function Chart({ metric, active }: { metric: Metric; active: SegmentKey[] }) {
               borderRadius: 12,
               color: "var(--color-popover-foreground)",
             }}
-            formatter={(v: number) => fmt(v)}
+            formatter={(v) => fmt(Number(v))}
           />
           <Legend wrapperStyle={{ fontSize: 12 }} />
           <ReferenceLine
