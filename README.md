@@ -31,7 +31,8 @@ npm start
 1. Создайте проект в [Railway](https://railway.app/) → **Deploy from GitHub**
 2. Подключите репозиторий `Seventil1/irb_family`
 3. Railway подхватит `railway.toml`:
-   - **Build:** `npm ci && npm run build`
+   - **Install:** `npm ci` (Nixpacks)
+   - **Build:** `npm run build`
    - **Start:** `npm start` → `node .output/server/index.mjs`
 4. В **Settings → Networking** нажмите **Generate Domain**
 5. (Опционально) переменные окружения:
